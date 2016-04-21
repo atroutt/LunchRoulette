@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     private class FirebaseAuthenticationHandler implements Firebase.AuthResultHandler {
         @Override
         public void onAuthenticated(AuthData authData) {
-            Intent i = new Intent(LoginActivity.this, LunchList.class);
+            Intent i = new Intent(LoginActivity.this, LunchListActivity.class);
             startActivity(i);
         }
 

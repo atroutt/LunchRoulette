@@ -32,3 +32,5 @@ You can get a new key/secret combo by [creating a twitter app](https://apps.twit
 * Integrated Firebase for data store and auth with Twitter
 * Added ButterKnife for view injection (less boilerplate code)
 * Learned about hiding sensitive data in public git repos.
+* Created (basic) Lunch spinner screen and got the image spinning.
+* Added sticky login (you are in until you log out)

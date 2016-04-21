@@ -2,22 +2,21 @@ package com.audreytroutt.android.lunchroulette;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.twitter.sdk.android.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.fabric.sdk.android.Fabric;
 
-public class LunchList extends AppCompatActivity {
+public class LunchListActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
 
@@ -32,15 +31,8 @@ public class LunchList extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void spinForLunchMeeting(View view) {
-        Snackbar.make(view, "This is when I'll spin for a lunch meeting", Snackbar.LENGTH_LONG)
-                .setAction("Action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent i = new Intent(LunchList.this, TableSpinnerActivity.class);
-                        startActivity(i);
-                    }
-                }).show();
+        Intent i = new Intent(LunchListActivity.this, TableSpinnerActivity.class);
+        startActivity(i);
     }
 
     @Override
@@ -59,6 +51,9 @@ public class LunchList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Twitter.getInstance().core.getSessionManager().clearActiveSession();
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
             return true;
         }
 
