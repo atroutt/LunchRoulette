@@ -12,8 +12,9 @@
     <ImageView
         android:gravity="center"
         android:keepScreenOn="true"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:id="@+id/lunch_roulette_table" />
 
     <!-- This FrameLayout insets its children based on system windows using
