@@ -3,6 +3,7 @@ package com.audreytroutt.android.lunchroulette.data;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,20 +24,38 @@ public class FirebaseUtility {
         baseFirebaseRef = new Firebase("https://scorching-inferno-6471.firebaseio.com/");
     }
 
-    private Firebase getPersonData(String personName) {
-        return baseFirebaseRef.child("people").child(personName);
+    private Firebase getPeoplePath() {
+        return baseFirebaseRef.child("people");
     }
 
-    public boolean isExistingUser(String personName) {
-        return false;
+    private Firebase getPersonData(String twitterUserId) {
+        return getPeoplePath().child(twitterUserId);
     }
 
-    public void authenticateTwitterUserWithResultHandler(long twitterUserId, Firebase.AuthResultHandler authResultHandler) {
+    public void authenticateTwitterSessionWithResultHandler(final TwitterSession session, final Firebase.AuthResultHandler authResultHandler) {
         // setup the OAuth options for Twitter
         Map<String, String> options = new HashMap<String, String>();
-        options.put("oauth_token", "<OAuth token>");
-        options.put("oauth_token_secret", "<OAuth token secret>");
-        options.put("user_id", "" + twitterUserId);
-        baseFirebaseRef.authWithOAuthToken("twitter", options, authResultHandler);
+        options.put("oauth_token", session.getAuthToken().token);
+        options.put("oauth_token_secret", session.getAuthToken().secret);
+        options.put("user_id", "" + session.getUserId());
+        baseFirebaseRef.authWithOAuthToken("twitter", options, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("provider", authData.getProvider());
+                map.put("displayName", session.getUserName());
+
+                Firebase ref = getPersonData("" + session.getUserId());
+                ref.setValue(map);
+
+                // call back to the original result handler
+                authResultHandler.onAuthenticated(authData);
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                authResultHandler.onAuthenticationError(firebaseError);
+            }
+        });
     }
 }
