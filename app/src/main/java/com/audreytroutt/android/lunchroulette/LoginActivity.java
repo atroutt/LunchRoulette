@@ -75,33 +75,16 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                // The TwitterSession is also available through:
-                // Twitter.getInstance().core.getSessionManager().getActiveSession()
                 TwitterSession session = result.data;
                 String msg = "Welcome @" + session.getUserName() + "!";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-
-                FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new Firebase.AuthResultHandler() {
-                            @Override
-                            public void onAuthenticated(AuthData authData) {
-                                Toast.makeText(getApplicationContext(), "Firebase auth complete", Toast.LENGTH_LONG).show();
-                                // the Twitter user is now authenticated with your Firebase app
-
-                                Intent i = new Intent(LoginActivity.this, LunchList.class);
-                                startActivity(i);
-                            }
-
-                            @Override
-                            public void onAuthenticationError(FirebaseError firebaseError) {
-                                // there was an error
-                            }
-                        }
-                );
+                FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new FirebaseAuthenticationHandler());
             }
 
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
+                Toast.makeText(getApplicationContext(), "Error authenticating with Twitter: " + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -111,6 +94,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // Make sure that the loginButton hears the result from any Activity that it triggered.
         loginButton.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class FirebaseAuthenticationHandler implements Firebase.AuthResultHandler {
+        @Override
+        public void onAuthenticated(AuthData authData) {
+            Intent i = new Intent(LoginActivity.this, LunchList.class);
+            startActivity(i);
+        }
+
+        @Override
+        public void onAuthenticationError(FirebaseError firebaseError) {
+            Log.d("Firebase", "Login with Firebase failure", firebaseError.toException());
+            Toast.makeText(getApplicationContext(), "Error authenticating with Firebase: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }
 
