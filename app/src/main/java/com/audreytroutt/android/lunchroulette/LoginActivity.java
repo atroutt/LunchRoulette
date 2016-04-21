@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -29,9 +30,14 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.audreytroutt.android.lunchroulette.data.FirebaseUtility;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterException;
@@ -39,7 +45,9 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,9 +59,11 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    @Bind(R.id.twitter_login_button) TwitterLoginButton loginButton;
+    @Bind(R.id.twitter_login_button)
+    TwitterLoginButton loginButton;
 
-    private UserLoginTask mAuthTask = null;
+    @Bind(R.id.lunch_roulette_logo)
+    ImageView lunchRouletteLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +71,32 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        lunchRouletteLogo.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_lunch_table, null));
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
                 // The TwitterSession is also available through:
                 // Twitter.getInstance().core.getSessionManager().getActiveSession()
                 TwitterSession session = result.data;
-                // TODO: Remove toast and use the TwitterSession's userID
-                // with your app's user model
-                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+                String msg = "Welcome @" + session.getUserName() + "!";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
 
-                Intent i = new Intent(LoginActivity.this, LunchList.class);
-                startActivity(i);
+                FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new Firebase.AuthResultHandler() {
+                            @Override
+                            public void onAuthenticated(AuthData authData) {
+                                Toast.makeText(getApplicationContext(), "Firebase auth complete", Toast.LENGTH_LONG).show();
+                                // the Twitter user is now authenticated with your Firebase app
+
+                                Intent i = new Intent(LoginActivity.this, LunchList.class);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onAuthenticationError(FirebaseError firebaseError) {
+                                // there was an error
+                            }
+                        }
+                );
             }
 
             @Override
@@ -86,50 +109,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Make sure that the loginButton hears the result from any
-        // Activity that it triggered.
+        // Make sure that the loginButton hears the result from any Activity that it triggered.
         loginButton.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-//            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-
-        }
     }
 }
 
