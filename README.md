@@ -26,8 +26,9 @@ You can get a new key/secret combo by [creating a twitter app](https://apps.twit
 ### THURSDAY
 
 * Sketched assets for Jeff
-* Integrated twitter auth (works)
-* Added ButterKnife for view injection (less boilerplate code)
-* Learned about hiding sensitive data in public git repos.
 * Created (basic) Login screen
 * Created (basic) Lunch List screen
+* Integrated twitter auth
+* Integrated Firebase for data store and auth with Twitter
+* Added ButterKnife for view injection (less boilerplate code)
+* Learned about hiding sensitive data in public git repos.
