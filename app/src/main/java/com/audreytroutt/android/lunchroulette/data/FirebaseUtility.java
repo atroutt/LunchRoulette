@@ -1,8 +1,10 @@
 package com.audreytroutt.android.lunchroulette.data;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.HashMap;
@@ -19,6 +21,9 @@ public class FirebaseUtility {
     }
 
     private Firebase baseFirebaseRef;
+    private String currentUserDisplayName;
+    private String currentUserID;
+    private LunchPerson currentPerson;
 
     private FirebaseUtility() {
         baseFirebaseRef = new Firebase("https://scorching-inferno-6471.firebaseio.com/");
@@ -28,28 +33,28 @@ public class FirebaseUtility {
         return baseFirebaseRef.child("people");
     }
 
-    private Firebase getPersonData(String twitterUserId) {
-        return getPeoplePath().child(twitterUserId);
+    private Firebase getCurrentPersonRef() {
+        return getPeoplePath().child(currentUserID);
     }
 
     public void authenticateTwitterSessionWithResultHandler(final TwitterSession session, final Firebase.AuthResultHandler authResultHandler) {
-        // setup the OAuth options for Twitter
+        currentUserDisplayName = session.getUserName();
+        currentUserID = "" + session.getUserId();
+
         Map<String, String> options = new HashMap<String, String>();
         options.put("oauth_token", session.getAuthToken().token);
         options.put("oauth_token_secret", session.getAuthToken().secret);
-        options.put("user_id", "" + session.getUserId());
+        options.put("user_id", currentUserID);
         baseFirebaseRef.authWithOAuthToken("twitter", options, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("provider", authData.getProvider());
-                map.put("displayName", session.getUserName());
+                Firebase ref = getCurrentPersonRef();
+                ref.child("authProvider").setValue(authData.getProvider());
+                ref.child("displayName").setValue(currentUserDisplayName);
+                ref.child("id").setValue(currentUserID);
 
-                Firebase ref = getPersonData("" + session.getUserId());
-                ref.setValue(map);
-
-                // call back to the original result handler
-                authResultHandler.onAuthenticated(authData);
+                // Sync the current person profile once
+                getCurrentPersonRef().addValueEventListener(new PostAuthenticationFireBaseListener(authResultHandler));
             }
 
             @Override
@@ -57,5 +62,30 @@ public class FirebaseUtility {
                 authResultHandler.onAuthenticationError(firebaseError);
             }
         });
+    }
+
+    private class PostAuthenticationFireBaseListener implements ValueEventListener {
+
+        private Firebase.AuthResultHandler authResultHandler;
+
+        public PostAuthenticationFireBaseListener(Firebase.AuthResultHandler authResultHandler) {
+            this.authResultHandler = authResultHandler;
+        }
+
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+            currentPerson = snapshot.getValue(LunchPerson.class);
+            System.out.println(currentPerson.toString());
+
+            // call back to the original result handler
+            authResultHandler.onAuthenticated(null);
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println("The read failed: " + firebaseError.getMessage());
+            // call back to the original result handler
+            authResultHandler.onAuthenticationError(firebaseError);
+        }
     }
 }

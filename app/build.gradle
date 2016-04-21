@@ -45,13 +45,11 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:support-v4:23.3.0'
+
     compile('com.twitter.sdk.android:twitter:1.13.0@aar') {
         transitive = true;
     }
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.firebase:firebase-client-android:2.5.2+'
-
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:runner:0.4'
-    androidTestCompile 'com.android.support.test:rules:0.4'
 }

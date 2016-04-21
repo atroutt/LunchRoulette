@@ -1,5 +1,6 @@
 package com.audreytroutt.android.lunchroulette;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,7 +33,14 @@ public class LunchList extends AppCompatActivity {
     @OnClick(R.id.fab)
     public void spinForLunchMeeting(View view) {
         Snackbar.make(view, "This is when I'll spin for a lunch meeting", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
+                .setAction("Action", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent i = new Intent(LunchList.this, TableSpinnerActivity.class);
+                        startActivity(i);
+                    }
+                }).show();
     }
 
     @Override
