@@ -7,7 +7,7 @@ twitterPluginId=THIS MIGHT BE AUTO GENERATED WHEN YOU ADD THE PLUGIN
 apiKey=YOUR_FABRIC_ORG_API_KEY
 ```
 
-You can get your Fabric API key from your Fabric organization page (somthing like https://fabric.io/settings/organizations/YOUR_ORG_ID)
+You can get your Fabric API key from your Fabric organization page (something like https://fabric.io/settings/organizations/YOUR_ORG_ID)
 
 2. To support login with Twitter, create secrets.xml and include the following keys:
 
@@ -19,7 +19,7 @@ You can get your Fabric API key from your Fabric organization page (somthing lik
 </resources>
 ```
 
-You can get a new key/secret combo by (creating a twitter app)[https://apps.twitter.com/app/new].
+You can get a new key/secret combo by [creating a twitter app](https://apps.twitter.com/app/new).
 
 ## HACKATHON NOTES
 
