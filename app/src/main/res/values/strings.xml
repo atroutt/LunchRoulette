@@ -1,8 +1,32 @@
 <resources>
     <string name="app_name">Lunch Roulette</string>
-    <string name="action_settings">Log Out</string>
+    <string name="action_settings">Preferences</string>
+    <string name="action_log_out">Log Out</string>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_lunch_list">Your Lunches</string>
     <string name="title_activity_table_spinner">Here we go!</string>
     <string name="dummy_button">See your lunch match!</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">About You</string>
+
+    <string name="pref_title_out_of_office">Out of Office</string>
+    <string name="pref_description_out_of_office">Turn this on to temporarily remove yourself from the lunch pool.</string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name"></string>
+
+    <!-- Example settings for Lunch Availability -->
+    <string name="pref_header_availability">Lunch Availability</string>
+    <string name="pref_title_lunch_monday">Monday</string>
+    <string name="pref_title_lunch_tuesday">Tuesday</string>
+    <string name="pref_title_lunch_wednesday">Wednesday</string>
+    <string name="pref_title_lunch_thursday">Thursday</string>
+    <string name="pref_title_lunch_friday">Friday</string>
+    <string name="pref_title_lunch_saturday">Saturday</string>
+    <string name="pref_title_lunch_sunday">Sunday</string>
+
 </resources>

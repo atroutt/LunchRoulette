@@ -1,5 +1,9 @@
 package com.audreytroutt.android.lunchroulette.data;
 
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.audreytroutt.android.lunchroulette.LunchRouletteApplication;
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -75,7 +79,10 @@ public class FirebaseUtility {
         @Override
         public void onDataChange(DataSnapshot snapshot) {
             currentPerson = snapshot.getValue(LunchPerson.class);
-            System.out.println(currentPerson.toString());
+
+            PreferenceManager.getDefaultSharedPreferences(LunchRouletteApplication.CONTEXT).edit().putString("display_name", currentUserDisplayName);
+
+            Log.d("TEMP", "-------gots sync");
 
             // call back to the original result handler
             authResultHandler.onAuthenticated(null);

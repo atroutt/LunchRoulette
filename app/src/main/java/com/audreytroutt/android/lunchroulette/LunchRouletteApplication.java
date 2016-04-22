@@ -4,6 +4,7 @@ import android.app.Application;
 import io.fabric.sdk.android.Fabric;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.core.Context;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 
@@ -12,6 +13,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig;
  */
 public class LunchRouletteApplication extends Application {
 
+    public static android.content.Context CONTEXT;
 
     @Override
     public void onCreate() {
@@ -21,5 +23,7 @@ public class LunchRouletteApplication extends Application {
         Fabric.with(this, new Twitter(authConfig));
 
         Firebase.setAndroidContext(this);
+
+        LunchRouletteApplication.CONTEXT = this.getApplicationContext();
     }
 }

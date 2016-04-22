@@ -1,0 +1,35 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- A 'parent' preference, which enables/disables child preferences (below)
+         when checked/unchecked. -->
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_monday"
+        android:title="@string/pref_title_lunch_monday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_tuesday"
+        android:title="@string/pref_title_lunch_tuesday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_wednesday"
+        android:title="@string/pref_title_lunch_wednesday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_thursday"
+        android:title="@string/pref_title_lunch_thursday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_friday"
+        android:title="@string/pref_title_lunch_friday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_saturday"
+        android:title="@string/pref_title_lunch_saturday" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="available_lunch_sunday"
+        android:title="@string/pref_title_lunch_sunday" />
+
+
+</PreferenceScreen>
