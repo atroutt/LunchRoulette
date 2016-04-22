@@ -102,7 +102,7 @@ public class TableSpinnerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_table_spinner);
         ButterKnife.bind(this);
 
-        tableImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_lunch_table, null));
+        tableImage.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_full_table, null));
 
         mVisible = true;
     }

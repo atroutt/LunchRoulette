@@ -31,16 +31,18 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.twitter_login_button)
     TwitterLoginButton loginButton;
 
-    @Bind(R.id.lunch_roulette_logo)
-    ImageView lunchRouletteLogo;
+    @Bind(R.id.lunch_roulette_name)
+    ImageView lunchRouletteMark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         ButterKnife.bind(this);
 
-        lunchRouletteLogo.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_lunch_table, null));
+        lunchRouletteMark.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_lunch_roulette_logo_name, null));
+
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
