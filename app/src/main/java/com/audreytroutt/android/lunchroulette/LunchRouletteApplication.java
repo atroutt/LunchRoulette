@@ -1,6 +1,7 @@
 package com.audreytroutt.android.lunchroulette;
 
 import android.app.Application;
+import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
 import com.firebase.client.Firebase;
@@ -20,7 +21,7 @@ public class LunchRouletteApplication extends Application {
         super.onCreate();
 
         TwitterAuthConfig authConfig = new TwitterAuthConfig(getString(R.string.twitter_key), getString(R.string.twitter_secret));
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig), new Crashlytics());
 
         Firebase.setAndroidContext(this);
 
