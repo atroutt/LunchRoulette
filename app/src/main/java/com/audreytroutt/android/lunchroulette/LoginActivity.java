@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 TwitterSession session = result.data;
                 String msg = "Welcome @" + session.getUserName() + "!";
                 Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new FirebaseAuthenticationHandler());
+                FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new FirebaseNewUserAuthenticationHandler());
             }
 
             @Override
@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             loginButton.setVisibility(View.INVISIBLE);
             String msg = "Welcome Back @" + session.getUserName() + "!";
             Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-            FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new FirebaseAuthenticationHandler());
+            FirebaseUtility.getInstance().authenticateTwitterSessionWithResultHandler(session, new FirebaseExistingUserAuthenticationHandler());
         }
     }
 
@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    private class FirebaseAuthenticationHandler implements Firebase.AuthResultHandler {
+    private class FirebaseExistingUserAuthenticationHandler implements Firebase.AuthResultHandler {
         @Override
         public void onAuthenticated(AuthData authData) {
             Intent i = new Intent(LoginActivity.this, LunchListActivity.class);
@@ -86,5 +86,20 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Error authenticating with Firebase: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
+    private class FirebaseNewUserAuthenticationHandler implements Firebase.AuthResultHandler {
+        @Override
+        public void onAuthenticated(AuthData authData) {
+            Intent i = new Intent(LoginActivity.this, SettingsActivity.class);
+            startActivity(i);
+        }
+
+        @Override
+        public void onAuthenticationError(FirebaseError firebaseError) {
+            Log.d("Firebase", "Login with Firebase failure", firebaseError.toException());
+            Toast.makeText(getApplicationContext(), "Error authenticating with Firebase: " + firebaseError.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
 

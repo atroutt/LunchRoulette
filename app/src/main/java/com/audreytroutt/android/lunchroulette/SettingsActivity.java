@@ -52,6 +52,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             if (value instanceof Boolean) {
                 preference.setSummary(((Boolean) value).booleanValue() ? "YES" : "NO" );
+
+                // TODO sync with Firebase
             } else {
                 preference.setSummary(stringValue);
             }
