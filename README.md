@@ -21,6 +21,10 @@ You can get your Fabric API key from your Fabric organization page (something li
 
 You can get a new key/secret combo by [creating a twitter app](https://apps.twitter.com/app/new).
 
+## About
+
+This app was crafted during SnipSnap In-house Hackathon 2106. Dev by @atroutt art and design by Jeff Fuller.
+
 ## HACKATHON NOTES
 
 ### THURSDAY
