@@ -23,12 +23,9 @@ You can get a new key/secret combo by [creating a twitter app](https://apps.twit
 
 ## About
 
-This app was crafted during SnipSnap In-house Hackathon 2106. Dev by [Audrey Troutt](https://github.com/atroutt) art and design by Jeff Fuller.
+This app was crafted during SnipSnap In-house Hackathon April 21-22,2106. Dev by [Audrey Troutt](https://github.com/atroutt) art and design by Jeff Fuller.
 
-## HACKATHON NOTES
-
-This app was developed during the in-house SnipSnap hackathon April 21-22, 2016.
-### DONE
+### Done during hackathon
 
 * Sketched assets for Jeff
 * Created (basic) Login screen
