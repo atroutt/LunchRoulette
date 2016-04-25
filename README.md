@@ -27,7 +27,8 @@ This app was crafted during SnipSnap In-house Hackathon 2106. Dev by [Audrey Tro
 
 ## HACKATHON NOTES
 
-### THURSDAY
+This app was developed during the in-house SnipSnap hackathon April 21-22, 2016.
+### DONE
 
 * Sketched assets for Jeff
 * Created (basic) Login screen
@@ -38,3 +39,18 @@ This app was crafted during SnipSnap In-house Hackathon 2106. Dev by [Audrey Tro
 * Learned about hiding sensitive data in public git repos.
 * Created (basic) Lunch spinner screen and got the image spinning.
 * Added sticky login (you are in until you log out)
+* Add utility to get current user profile information
+* Add Glide for image loading (alternative to picasso)
+* Put more (fake) people in firebase
+* Created onboarding/setting screen for setting when you are available to lunch
+* Add Jeff's assets and colors
+* Prevent app from rotating on full screen activities
+
+### For some day when I come back to finish this
+
+* Fix match screen so it can appear without crashing the app
+* Implement spinner algorithm
+* Persist match to Firebase
+* Add recycler view to lunch list for lunches
+* Persist lunch availability to firebase
+* Implement invite-only mechanism so that you have to be pre-approved to join the community.
